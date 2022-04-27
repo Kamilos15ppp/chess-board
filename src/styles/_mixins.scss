@@ -12,3 +12,23 @@
         + "Available breakpoints are: #{map-keys($breakpoints)}.";
   }
 }
+
+@function getValue($size, $name) {
+  $value: map-get(map-get($chessBoardSizes, $size), $name);
+
+  @return $value;
+}
+
+@function setSize($size, $property) {
+  $value: map-get(map-get($chessBoardSizes, $size), 'padding');
+
+  @if $property == 'width' {
+    $width: calc(100% - #{$value});
+    @return $width;
+  } @else if $property == 'height' {
+    $height: calc(100% - #{$value});
+    @return $height;
+  } @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$size}`";
+  }
+}

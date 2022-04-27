@@ -1,6 +1,54 @@
 $breakpoints: (
-  'mobile-sm': 480px,
+  'mobile-sm': 400px,
   'mobile': 600px,
   'tablet': 768px,
   'desktop': 1024px,
 );
+
+$chessBoardSizes: (
+  'default': (
+    'width': 31rem,
+    'height': 31rem,
+    'padding': 1.7rem,
+    'fontSize': 1.7rem,
+  ),
+  'mobile-sm': (
+    'width': 39rem,
+    'height': 39rem,
+    'padding': 2rem,
+    'fontSize': 2rem,
+  ),
+  'mobile': (
+    'width': 57rem,
+    'height': 57rem,
+    'padding': 2.3rem,
+    'fontSize': 2.3rem,
+  ),
+  'tablet': (
+    'width': 31rem,
+    'height': 31rem,
+    'padding': 1.7rem,
+    'fontSize': 1.7rem,
+  ),
+  'desktop': (
+    'width': 31rem,
+    'height': 31rem,
+    'padding': 1.7rem,
+    'fontSize': 1.7rem,
+  ),
+);
+
+$size-default: (
+    map-get(map-get($chessBoardSizes, 'default'), 'width') -
+      map-get(map-get($chessBoardSizes, 'default'), 'padding') * 2
+  ) / 8;
+
+$size-mobile-sm: (
+    map-get(map-get($chessBoardSizes, 'mobile-sm'), 'width') -
+      map-get(map-get($chessBoardSizes, 'mobile-sm'), 'padding') * 2
+  ) / 8;
+
+$size-mobile: (
+    map-get(map-get($chessBoardSizes, 'mobile'), 'width') -
+      map-get(map-get($chessBoardSizes, 'mobile'), 'padding') * 2
+  ) / 8;

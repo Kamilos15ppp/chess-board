@@ -1,12 +1,96 @@
 @import '../../styles/mixins';
+@import '../../styles/variables';
 
 .wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100vw;
   height: 100%;
-  background-color: rgb(114, 114, 114);
+  background-color: rgb(27, 49, 95);
 
   @include media('tablet') {
     width: 70vw;
     height: 100%;
+  }
+
+  .boardContainer {
+    position: relative;
+    padding: getValue('default', 'padding');
+    width: getValue('default', 'width');
+    height: getValue('default', 'height');
+    background-color: rgb(218, 187, 127);
+
+    @include media('mobile-sm') {
+      padding: getValue('mobile-sm', 'padding');
+      width: getValue('mobile-sm', 'width');
+      height: getValue('mobile-sm', 'height');
+    }
+
+    @include media('mobile') {
+      padding: getValue('mobile', 'padding');
+      width: getValue('mobile', 'width');
+      height: getValue('mobile', 'height');
+    }
+
+    .notationNumbers,
+    .notationLetters {
+      position: absolute;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      font-size: getValue('default', 'fontSize');
+      font-weight: bold;
+      color: #000;
+
+      @include media('mobile-sm') {
+        font-size: getValue('mobile-sm', 'fontSize');
+      }
+
+      @include media('mobile') {
+        font-size: getValue('mobile', 'fontSize');
+      }
+    }
+
+    .notationNumbers {
+      top: 0;
+      left: 0;
+      flex-direction: column-reverse;
+      width: getValue('default', 'padding');
+      height: setSize('default', 'height');
+
+      //rwd
+    }
+
+    .notationLetters {
+      bottom: 0;
+      right: 0;
+      align-items: center;
+      width: setSize('default', 'width');
+      height: getValue('default', 'padding');
+      transform: translateX(-0.5rem);
+
+      //rwd
+    }
+
+    .fieldsContainer {
+      display: grid;
+      grid-template-columns: repeat(8, $size-default);
+      grid-template-rows: repeat(8, $size-default);
+      grid-column-gap: 0px;
+      grid-row-gap: 0px;
+      width: 100%;
+      height: 100%;
+
+      @include media('mobile-sm') {
+        grid-template-columns: repeat(8, $size-mobile-sm);
+        grid-template-rows: repeat(8, $size-mobile-sm);
+      }
+
+      @include media('mobile') {
+        grid-template-columns: repeat(8, $size-mobile);
+        grid-template-rows: repeat(8, $size-mobile);
+      }
+    }
   }
 }
