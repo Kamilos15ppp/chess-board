@@ -1,0 +1,12 @@
+@import '../../styles/mixins';
+
+.wrapper {
+  width: 100vw;
+  height: 100%;
+  background-color: rgb(114, 114, 114);
+
+  @include media('tablet') {
+    width: 70vw;
+    height: 100%;
+  }
+}

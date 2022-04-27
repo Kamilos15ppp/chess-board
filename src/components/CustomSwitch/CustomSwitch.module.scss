@@ -1,0 +1,12 @@
+.wrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 1rem 0;
+  padding-left: 3rem;
+  width: 100%;
+
+  .text {
+    margin-left: 1rem;
+  }
+}

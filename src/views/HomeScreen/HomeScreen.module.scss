@@ -1,0 +1,14 @@
+@import '../../styles/mixins';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+
+  @include media('tablet') {
+    flex-direction: row;
+  }
+}
