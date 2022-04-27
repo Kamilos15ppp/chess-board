@@ -1,11 +1,11 @@
 import React from 'react';
 import { createTheme, NextUIProvider } from '@nextui-org/react';
 
-interface Props {
+interface IProps {
   children: React.ReactNode;
 }
 
-const Providers: React.FC<Props> = ({ children }) => {
+const Providers: React.FC<IProps> = ({ children }) => {
   const darkTheme = createTheme({
     type: 'dark',
   });
