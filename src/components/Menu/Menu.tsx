@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useSwitchesValue } from '../../providers/Providers';
+import { Switch } from '../../hooks/types';
 
 import CustomButton from '../CustomButton/CustomButton';
 import CustomCard from '../CustomCard/CustonCard';
@@ -8,9 +10,10 @@ import CustomSwitch from '../CustomSwitch/CustomSwitch';
 import styles from './Menu.module.scss';
 
 const Menu = () => {
+  const { switches, switchesDispatch } = useSwitchesValue();
+
   const [isMobileView, setIsMobileView] = useState<boolean>(true);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const [isInputModeChecked, setIsInputModeChecked] = useState<boolean>(false);
 
   const handleOpenMenu = (): void => setIsMenuOpen(!isMenuOpen);
 
@@ -24,8 +27,25 @@ const Menu = () => {
     }
   };
 
-  const handleOnInputModeChange = () =>
-    setIsInputModeChecked(!isInputModeChecked);
+  const handleOnSwitchChange = (name: string): void => {
+    if (switches) {
+      const element: Switch | undefined = switches.find(
+        (el) => el.name === name
+      );
+
+      if (element!.isChecked) {
+        switchesDispatch({
+          type: 'uncheck',
+          payload: { switch: `${element!.name}` },
+        });
+      } else {
+        switchesDispatch({
+          type: 'check',
+          payload: { switch: `${element!.name}` },
+        });
+      }
+    }
+  };
 
   const handleOnStart = (): void => {}; //TODO: add method
 
@@ -62,7 +82,7 @@ const Menu = () => {
       <div className={styles.el2}>
         <CustomCard headerText='Field name' text='A2' />
       </div>
-      {isInputModeChecked && (
+      {switches[2].isChecked && (
         <div className={styles.input}>
           <CustomInput labelPlaceholder='Input field name' />
         </div>
@@ -72,18 +92,21 @@ const Menu = () => {
       >
         <CustomSwitch
           text='Fields markings'
-          checked={isInputModeChecked}
-          onChange={handleOnInputModeChange}
+          name='fieldsMarkings'
+          checked={switches[0].isChecked}
+          onChange={handleOnSwitchChange}
         />
         <CustomSwitch
           text='Rotate chessboard'
-          checked={true}
-          onChange={handleOnInputModeChange}
+          name='rotateChessboard'
+          checked={switches[1].isChecked}
+          onChange={handleOnSwitchChange}
         />
         <CustomSwitch
           text='Checking/Inputting'
-          checked={false}
-          onChange={handleOnInputModeChange}
+          name='checkingOrInputting'
+          checked={switches[2].isChecked}
+          onChange={handleOnSwitchChange}
         />
       </div>
       <div

@@ -6,19 +6,26 @@ import styles from './CustomSwitch.module.scss';
 interface IProps {
   text: string;
   checked: boolean;
+  name: string;
   size?: NormalSizes;
-  onChange: () => void;
+  onChange: (name: string) => void;
 }
 
 const CustomSwitch: React.FC<IProps> = ({
   text,
   checked,
+  name,
   size = 'sm',
   onChange,
 }) => {
   return (
     <div className={styles.wrapper}>
-      <Switch shadow checked={checked} size={size} onChange={onChange} />
+      <Switch
+        shadow
+        checked={checked}
+        size={size}
+        onChange={() => onChange(name)}
+      />
       <span className={styles.text}>{text}</span>
     </div>
   );
