@@ -59,6 +59,9 @@
       width: getValue('default', 'padding');
       height: setSize('default', 'height');
 
+      &.reversed {
+        flex-direction: column;
+      }
       //rwd
     }
 
@@ -70,6 +73,9 @@
       height: getValue('default', 'padding');
       transform: translateX(-0.5rem);
 
+      &.reversed {
+        flex-direction: row-reverse;
+      }
       //rwd
     }
 
