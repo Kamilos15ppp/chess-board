@@ -1,4 +1,4 @@
-interface IField {
+export interface IField {
   number: string;
   letter: string;
   isWhite: boolean;
