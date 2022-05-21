@@ -1,31 +1,32 @@
 import { useEffect, useState } from 'react';
-import { useSwitchesValue } from '../../providers/Providers';
+import { useFieldsValue, useSwitchesValue } from '../../providers/Providers';
 import { Switch } from '../../hooks/types';
+import { IField } from '../ChessBoard/constants';
+import { NormalColors } from '@nextui-org/react';
 
 import CustomButton from '../CustomButton/CustomButton';
-import CustomCard from '../CustomCard/CustonCard';
-import CustomInput from '../CustomInput/CustomInput';
+import CustomCard from '../CustomCard/CustomCard';
 import CustomSwitch from '../CustomSwitch/CustomSwitch';
 
 import styles from './Menu.module.scss';
 
-const Menu = () => {
+interface IProps {
+  isAppInit: boolean;
+  initializeApp: () => void;
+  stopApp: () => void;
+  drawedField: IField | undefined;
+}
+
+const Menu: React.FC<IProps> = ({
+  isAppInit,
+  initializeApp,
+  stopApp,
+  drawedField,
+}) => {
   const { switches, switchesDispatch } = useSwitchesValue();
+  const { isCorrect } = useFieldsValue();
 
-  const [isMobileView, setIsMobileView] = useState<boolean>(true);
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-
-  const handleOpenMenu = (): void => setIsMenuOpen(!isMenuOpen);
-
-  const handleOnResize = (): void => {
-    const width = window.innerWidth;
-
-    if (width >= 768) {
-      setIsMobileView(false);
-    } else {
-      setIsMobileView(true);
-    }
-  };
+  const [cardColor, setCardColor] = useState<NormalColors>('primary');
 
   const handleOnSwitchChange = (name: string): void => {
     if (switches) {
@@ -47,49 +48,42 @@ const Menu = () => {
     }
   };
 
-  const handleOnStart = (): void => {}; //TODO: add method
-
-  const mobileMenuClass: string = isMenuOpen ? styles.opened : styles.closed;
-
-  const optionVisibility: string = isMenuOpen ? '' : styles.hidden;
-
-  const mobileMenuText: string = isMenuOpen ? 'Close menu' : 'Open menu';
+  const fieldName = (): string => {
+    if (drawedField) {
+      return `${drawedField.letter.toUpperCase()}${drawedField.number}`;
+    } else {
+      return '';
+    }
+  };
 
   useEffect(() => {
-    handleOnResize();
-    window.addEventListener('resize', handleOnResize);
+    switch (isCorrect) {
+      case true:
+        setCardColor('success');
+        break;
+      case false:
+        setCardColor('error');
+        break;
+      case null:
+        setCardColor('primary');
+        break;
 
-    return () => {
-      window.removeEventListener('resize', handleOnResize);
-    };
-  }, [isMobileView]);
+      default:
+        setCardColor('primary');
+        break;
+    }
+  }, [isCorrect]);
 
   return (
-    <section
-      className={`${styles.wrapper}
-        ${isMobileView ? mobileMenuClass : ''}
-      `}
-    >
-      {isMobileView && (
-        <div className={styles.button}>
-          <CustomButton
-            text={mobileMenuText}
-            onClick={handleOpenMenu}
-            bordered={isMenuOpen}
-          />
-        </div>
-      )}
-      <div className={styles.el2}>
-        <CustomCard headerText='Field name' text='A2' />
+    <section className={styles.wrapper}>
+      <div className={styles.card}>
+        <CustomCard
+          headerText='Field to check'
+          color={cardColor}
+          text={fieldName()}
+        />
       </div>
-      {switches[2].isChecked && (
-        <div className={styles.input}>
-          <CustomInput labelPlaceholder='Input field name' />
-        </div>
-      )}
-      <div
-        className={`${styles.switches} ${isMobileView ? optionVisibility : ''}`}
-      >
+      <div className={styles.switches}>
         <CustomSwitch
           text='Fields markings'
           name='fieldsMarkings'
@@ -102,23 +96,13 @@ const Menu = () => {
           checked={switches[1].isChecked}
           onChange={handleOnSwitchChange}
         />
-        <CustomSwitch
-          text='Checking/Inputting'
-          name='checkingOrInputting'
-          checked={switches[2].isChecked}
-          onChange={handleOnSwitchChange}
-        />
       </div>
-      <div
-        className={`${styles.secButton} ${
-          isMobileView ? optionVisibility : ''
-        }`}
-      >
+      <div className={styles.button}>
         <CustomButton
-          text='Start'
+          text={isAppInit ? 'Show summary' : 'Start Application'}
           color='success'
           size='md'
-          onClick={handleOnStart}
+          onClick={isAppInit ? stopApp : initializeApp}
         />
       </div>
     </section>

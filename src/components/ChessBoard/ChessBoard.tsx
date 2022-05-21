@@ -1,13 +1,19 @@
 import { v4 as uuidv4 } from 'uuid';
 import NotationElement from '../NotationElement/NotationElement';
 import Field from '../Field/Field';
-import { useSwitchesValue } from '../../providers/Providers';
+import { useFieldsValue, useSwitchesValue } from '../../providers/Providers';
 import * as chessBoardConst from './constants';
 
 import styles from './ChessBoard.module.scss';
 
-const ChessBoard = () => {
+interface IProps {
+  drawField: () => void;
+  drawedField: chessBoardConst.IField | undefined;
+}
+
+const ChessBoard: React.FC<IProps> = ({ drawField, drawedField }) => {
   const { switches } = useSwitchesValue();
+  const { fieldsDispatch } = useFieldsValue();
   const {
     NOTATION_NUMBERS,
     NOTATION_LETTERS,
@@ -28,12 +34,53 @@ const ChessBoard = () => {
     }
   );
 
+  const delayedDraw = (): void => {
+    setTimeout(() => {
+      drawField();
+
+      fieldsDispatch({
+        type: 'changeIsCorrect',
+        payload: { isCorrect: null },
+      });
+    }, 1000);
+  };
+
+  const handleOnClick = (field: chessBoardConst.IField): void => {
+    if (drawedField) {
+      if (field === drawedField) {
+        fieldsDispatch({
+          type: 'changeIsCorrect',
+          payload: { isCorrect: true },
+        });
+
+        fieldsDispatch({
+          type: 'add',
+          payload: { field },
+        });
+
+        delayedDraw();
+      } else {
+        fieldsDispatch({
+          type: 'changeIsCorrect',
+          payload: { isCorrect: false },
+        });
+
+        fieldsDispatch({
+          type: 'changeIncorrectChoices',
+        });
+
+        delayedDraw();
+      }
+    }
+  };
+
   const fieldsElements: JSX.Element[] = FIELDS_INFO.map((field) => {
     return (
       <Field
         key={uuidv4()}
         isWhite={field.isWhite}
         position={`${field.letter}${field.number}`}
+        onClick={() => handleOnClick(field)}
       />
     );
   });

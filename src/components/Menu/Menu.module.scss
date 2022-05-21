@@ -3,64 +3,34 @@
 .wrapper {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(5, 1fr);
+  grid-template-rows: repeat(4, 1fr);
   grid-column-gap: 0.5rem;
   grid-row-gap: 2rem;
   padding: 1rem;
   width: 100vw;
-  height: 20%;
+  height: 30%;
   transition: 0.5s ease-in-out;
   overflow-y: hidden;
 
   .button,
-  .el2,
-  .input,
-  .switches,
-  .secButton {
+  .card,
+  .switches {
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  .button {
-    grid-area: 1 / 4 / 2 / 5;
-  }
-
-  .el2 {
-    grid-area: 2 / 1 / 4 / 3;
-  }
-
-  .input {
-    grid-area: 2 / 3 / 4 / 5;
-
-    &.hidden {
-      display: none;
-    }
+  .card {
+    grid-area: 1 / 1 / 3 / 3;
   }
 
   .switches {
-    grid-area: 4 / 1 / 6 / 3;
+    grid-area: 3 / 1 / 5 / 3;
     flex-direction: column;
-
-    &.hidden {
-      display: none;
-    }
   }
 
-  .secButton {
-    grid-area: 4 / 3 / 6 / 5;
-
-    &.hidden {
-      display: none;
-    }
-  }
-
-  &.closed {
-    height: 20%;
-  }
-
-  &.opened {
-    height: 100%;
+  .button {
+    grid-area: 2 / 3 / 4 / 5;
   }
 
   @include media('tablet') {

@@ -46,7 +46,6 @@ export function useSwitches(): [
     switches: [
       { name: 'fieldsMarkings', isChecked: true },
       { name: 'rotateChessboard', isChecked: false },
-      { name: 'checkingOrInputting', isChecked: false },
     ],
   });
 
