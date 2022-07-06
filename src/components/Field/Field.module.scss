@@ -2,16 +2,16 @@
 @import '../../styles/variables';
 
 .field {
-  width: calc($size-mobile-sm);
-  height: calc($size-mobile-sm);
+  width: $size-default;
+  height: $size-default;
 
   @include media('mobile-sm') {
-    width: calc($size-mobile-sm);
-    height: calc($size-mobile-sm);
+    width: $size-mobile-sm;
+    height: $size-mobile-sm;
   }
 
   @include media('mobile') {
-    width: calc($size-mobile);
-    height: calc($size-mobile);
+    width: $size-mobile;
+    height: $size-mobile;
   }
 }
